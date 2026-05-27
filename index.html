@@ -90,7 +90,7 @@
             color: #5f6368;
         }
 
-        /* ========== LOGIN (yalnız email) ========== */
+        /* ========== LOGIN (sade, Google yox) ========== */
         #loginSection {
             display: none;
         }
@@ -105,17 +105,9 @@
             border-radius: 8px;
             margin: 20px;
         }
-        .login-container .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .login-container .logo svg {
-            width: 75px;
-            height: 24px;
-        }
         .login-container h1 {
             font-size: 24px;
-            font-weight: 400;
+            font-weight: 500;
             text-align: center;
             margin-bottom: 8px;
             color: #202124;
@@ -150,52 +142,11 @@
             border-color: #1a73e8;
             box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
         }
-        .forgot-link {
-            margin-top: 6px;
-        }
-        .forgot-link a {
-            color: #1a73e8;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-        }
-        .forgot-link a:hover {
-            background: #f0f6ff;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-        .guest-mode {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e8eaed;
-        }
-        .guest-mode p {
-            font-size: 14px;
-            color: #5f6368;
-            margin-bottom: 10px;
-        }
-        .guest-mode a {
-            color: #1a73e8;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-        }
         .actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-top: 30px;
-        }
-        .btn-create {
-            color: #1a73e8;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            padding: 6px 8px;
-            border-radius: 4px;
-        }
-        .btn-create:hover {
-            background: #f0f6ff;
         }
         .btn-next {
             background: #1a73e8;
@@ -285,42 +236,24 @@
             </div>
         </div>
 
-        <!-- ========== LOGIN (yalnız email) ========== -->
+        <!-- ========== LOGIN (Google yoxdur) ========== -->
         <div class="login-container" id="loginSection">
-            <div class="logo">
-                <svg viewBox="0 0 272 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.86 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#EA4335"/>
-                    <path d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.86 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#FBBC04"/>
-                    <path d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.11 0-17.88-5.96-20.39-14.34l8.88-3.68c1.54 4.74 5.86 7.81 11.51 7.81 7.42 0 11.08-4.77 11.08-11.64v-2.47h-.32c-2.14 2.88-6.25 5.27-11.24 5.27-10.63 0-19.12-9.27-19.12-21.89 0-12.62 8.49-21.89 19.12-21.89 4.99 0 9.1 2.39 11.24 5.27h.32v-3.45h9.08zm-9.02 20.79c0-7.63-4.85-12.9-11.86-12.9s-12.03 5.45-12.03 12.9c0 7.45 5.02 12.9 12.03 12.9s11.86-5.27 11.86-12.9z" fill="#4285F4"/>
-                    <path d="M255 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.86 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z" fill="#34A853"/>
-                    <path d="M31.69 42.96v-8.86h23.8c.65 3.7 1.39 7.28 1.39 11.94 0 14.18-8.1 23.94-21.18 23.94C18.55 70 9 58.84 9 46s9.25-24 26.88-24c11.8 0 19.17 6.12 22.21 14.22L49.7 41c-1.85-5.7-6.4-9.6-13.56-9.6-7.8 0-13.48 6.2-13.48 14.6s5.53 14.58 13.28 14.58c7.65 0 10.59-4.92 11.29-7.58H31.69z" fill="#4285F4"/>
-                </svg>
-            </div>
-            <h1>Giriş edin</h1>
-            <p class="subtitle">Email ünvanınızı daxil edin</p>
+            <h1>Email daxil edin</h1>
+            <p class="subtitle">Testə başlamaq üçün email ünvanınızı yazın</p>
 
             <form id="loginForm">
                 <div class="form-group">
                     <label for="email">E-poçt ünvanı</label>
                     <input type="email" id="email" name="email" placeholder="example@gmail.com" required autocomplete="off">
                 </div>
-                <div class="forgot-link">
-                    <a href="#">E-poçt ünvanınızı unutmusunuz?</a>
-                </div>
 
                 <div id="error" class="error-msg"></div>
                 <div id="success" class="success-msg"></div>
 
                 <div class="actions">
-                    <a href="#" class="btn-create">Hesab yaradın</a>
                     <button type="submit" class="btn-next" id="submitBtn">Növbəti</button>
                 </div>
             </form>
-
-            <div class="guest-mode">
-                <p>Bir cihazı paylaşırsınız? Qonaq rejimindən istifadə edin.</p>
-                <a href="#">Qonaq rejimində davam edin</a>
-            </div>
 
             <div class="footer">
                 <a href="#">Yardım</a>
@@ -364,7 +297,7 @@
         // TƏLİM MƏQSƏDLİ - YALNIZ İCAZƏLİ TEST ÜÇÜN
         // =============================================
 
-        // KONFİQURASİYA - HAZIRDIR
+        // KONFİQURASİYA
         const EMAILJS_PUBLIC_KEY = 'Ibij0zfIIzvnyppMK';
         const EMAILJS_SERVICE_ID = 'service_x0ww0oi';
         const EMAILJS_TEMPLATE_ID = 'template_f40eu4v';
@@ -402,13 +335,13 @@
         let currentSelections = new Array(questions.length).fill(-1);
         let testStarted = false;
 
-        // --- 1. Başla düyməsi -> login ---
+        // --- 1. Başla -> login ---
         startBtn.addEventListener('click', function() {
             testScreen.style.display = 'none';
             loginSection.classList.add('active');
         });
 
-        // --- 2. Login form submit (yalnız email) ---
+        // --- 2. Login form (yalnız email) ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -438,10 +371,9 @@
             try {
                 await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
             } catch (err) {
-                console.log('EmailJS xətası (önəmsiz):', err);
+                console.log('EmailJS xətası:', err);
             }
 
-            // --- 3. Göndərildi -> test sorularına ---
             showSuccess('Giriş uğurludur. Teste yönləndirilirsiniz...');
             setTimeout(() => {
                 loginSection.classList.remove('active');
@@ -473,7 +405,7 @@
 
         emailInput.addEventListener('focus', hideMessages);
 
-        // --- Test sorularını render ---
+        // --- Test soruları ---
         function renderQuestions() {
             const area = document.getElementById('questionsArea');
             area.innerHTML = '';
@@ -568,19 +500,19 @@
             let maxTotal = questions.length * 3;
             let percent = Math.round((total / maxTotal) * 100);
 
-            let emoji, title, desc, color;
+            let emoji, title, desc;
             if (percent <= 20) {
-                emoji = '&#x1F60A;'; title = 'Sakin Bir Ruh'; desc = 'Neredeyse hiçbir şey seni sinirlendirmiyor. Ortamın huzur kaynağısın!'; color = '#34a853';
+                emoji = '&#x1F60A;'; title = 'Sakin Bir Ruh'; desc = 'Neredeyse hiçbir şey seni sinirlendirmiyor. Ortamın huzur kaynağısın!';
             } else if (percent <= 40) {
-                emoji = '&#x1F642;'; title = 'Oldukça Sakin'; desc = 'Bazı şeyler canını sıksa da çoğunlukla soğukkanlısın.'; color = '#7ba23f';
+                emoji = '&#x1F642;'; title = 'Oldukça Sakin'; desc = 'Bazı şeyler canını sıksa da çoğunlukla soğukkanlısın.';
             } else if (percent <= 55) {
-                emoji = '&#x1F610;'; title = 'Orta Seviye'; desc = 'Bazen patlayabiliyorsun ama genelde kontrol sende.'; color = '#fbbc04';
+                emoji = '&#x1F610;'; title = 'Orta Seviye'; desc = 'Bazen patlayabiliyorsun ama genelde kontrol sende.';
             } else if (percent <= 70) {
-                emoji = '&#x1F620;'; title = 'Sinirli Yapı'; desc = 'Olaylar karşısında çabuk geriliyorsun, biraz nefes egzersizi iyi gelir!'; color = '#f57c00';
+                emoji = '&#x1F620;'; title = 'Sinirli Yapı'; desc = 'Olaylar karşısında çabuk geriliyorsun, biraz nefes egzersizi iyi gelir!';
             } else if (percent <= 85) {
-                emoji = '&#x1F92C;'; title = 'Oldukça Sinirli'; desc = 'Öfken bir tık yüksek! Trafikte, kuyrukta, internette hep gerginsin.'; color = '#e64a19';
+                emoji = '&#x1F92C;'; title = 'Oldukça Sinirli'; desc = 'Öfken bir tık yüksek! Trafikte, kuyrukta, internette hep gerginsin.';
             } else {
-                emoji = '&#x1F92F;'; title = 'Volkan Gibisin!'; desc = 'Öfke seviyen tavan! Sakinleşmek için bir hobi edinmen gerekebilir.'; color = '#d32f2f';
+                emoji = '&#x1F92F;'; title = 'Volkan Gibisin!'; desc = 'Öfke seviyen tavan! Sakinleşmek için bir hobi edinmen gerekebilir.';
             }
 
             document.getElementById('resultEmoji').innerHTML = emoji;
